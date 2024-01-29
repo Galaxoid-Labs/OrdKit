@@ -66,6 +66,14 @@ public extension OrdKit.API {
             }
         }
         
+        var contentUrl: URL? {
+            return OrdKit.baseURL?.appending(path: "content/\(inscriptionId)")
+        }
+        
+        var previewUrl: URL? {
+            return OrdKit.baseURL?.appending(path: "preview/\(inscriptionId)")
+        }
+        
     }
     
     struct Inscriptions: Codable {
@@ -123,9 +131,6 @@ public extension OrdKit.API.Recursive {
     
     struct Metadata {
         public let hex: String
-        // TODO: Decode hex CBOR into dictionary.
-        // There are a few libraries, but they seem to be to heavy as
-        // we only want to decode.
         public let decoded: [String: Any]?
     }
     

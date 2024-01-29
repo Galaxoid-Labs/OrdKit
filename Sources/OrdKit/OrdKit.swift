@@ -2,7 +2,7 @@ import Foundation
 
 public struct OrdKit {
     
-    private static var baseURL: URL?
+    public static var baseURL: URL?
     private static let session = URLSession.shared
     
     public static func set(baseURL with: String) {
@@ -66,11 +66,16 @@ public struct OrdKit {
             
             public static func getMetadata(id: String) async throws -> API.Recursive.Metadata {
                 do {
+                    var decoded: [String: Any]?
                     let hex: String = try await fetch(path: "r/metadata/\(id)")
-                    // TODO: Decode hex CBOR into dictionary.
-                    // There are a few libraries, but they seem to be to heavy as
-                    // we only want to decode.
-                    return Metadata(hex: hex, decoded: nil)
+                    if let cbor = try? CBOR.decode(hex.bytesFromHex) {
+                        switch cbor {
+                            case .map(let dict):
+                                decoded = try? CBOR.convertCBORMapToDictionary(dict)
+                            default: break
+                        }
+                    }
+                    return Metadata(hex: hex, decoded: decoded)
                 } catch {
                     throw OrdKitError.cannotDecodeResponse
                 }

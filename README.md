@@ -24,7 +24,3 @@ do {
 ```
 
 Take a look at the Tests for more examples. You can run them by adding your Ordinals server url to the `OrdKitTests.swift` in the setup method.
-
-## Todo
-- [ ] Decode CBOR metadata hex into dictionary
-- [ ] Maybe add content endpoints where based on content_type you can download the data, such as images, etc
