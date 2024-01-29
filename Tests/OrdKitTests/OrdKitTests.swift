@@ -4,7 +4,7 @@ import XCTest
 final class OrdKitTests: XCTestCase {
     
     override class func setUp() {
-        //OrdKit.set(baseURL: "") // Your ord server url here
+        OrdKit.set(baseURL: "") // Your ord server url here
     }
     
     func testBlock() async throws {
@@ -36,7 +36,7 @@ final class OrdKitTests: XCTestCase {
     
     func testInscriptionId() async throws {
         do {
-            let result = try await OrdKit.API.getInscription(id: "26482871f33f1051f450f2da9af275794c0b5f1c61ebf35e4467fb42c2813403i0", number: nil)
+            let result = try await OrdKit.API.getInscription(id: "025107e06ac442f014c09a73cd97372f69619edd00dbeacca0aac55c75efe3ffi0", number: nil)
             XCTAssertNotNil(result)
         } catch {
             XCTFail(error.localizedDescription)

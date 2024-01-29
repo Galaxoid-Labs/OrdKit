@@ -30,7 +30,7 @@ public extension OrdKit.API {
         public var id: String { return inscriptionId }
         
         public let address: String?
-        public let charms: [String]
+        public let charms: [Inscription.Charm]
         public let children: [String]
         public let contentLength: UInt64?
         public let contentType: String?
@@ -46,6 +46,25 @@ public extension OrdKit.API {
         public let sat: UInt64?
         public let satpoint: String // TODO: Make satpoint type?
         public let timestamp: Date
+        
+        public enum Charm: String, Codable {
+            case coin, cursed, epic, legendary, lost, nineball, rare, reinscription, unbound, uncommon, vindicated
+            public var emoji: String {
+                switch self {
+                    case .coin: return "🪙"
+                    case .cursed: return "👹"
+                    case .epic: return "🪻"
+                    case .legendary: return "🌝"
+                    case .lost: return "🤔"
+                    case .nineball: return "9️⃣"
+                    case .rare: return "🧿"
+                    case .reinscription: return "♻️"
+                    case .unbound: return "🔓"
+                    case .uncommon: return "🌱"
+                    case .vindicated: return "❤️‍🔥"
+                }
+            }
+        }
         
     }
     
