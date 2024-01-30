@@ -170,6 +170,30 @@ public extension OrdKit.API {
         public let more: Bool
         public let pageIndex: Int
         
+        func fetchInscriptions() async throws -> [Inscription] {
+            try await withThrowingTaskGroup(of: Inscription.self) { group in
+                for id in self.inscriptions {
+                    group.addTask {
+                        return try await OrdKit.API.getInscription(id: id)
+                    }
+                }
+                
+                var dict = [String: Inscription]()
+                for try await ins in group {
+                    dict[ins.inscriptionId] = ins
+                }
+                
+                var retval = [Inscription]()
+                for id in self.inscriptions {
+                    if let ins = dict[id] {
+                        retval.append(ins)
+                    }
+                }
+
+                return retval
+            }
+        }
+        
     }
     
     struct Sat: Codable, Identifiable {

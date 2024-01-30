@@ -19,7 +19,7 @@ public struct OrdKit {
             return try await fetch(path: "blockcount")
         }
         
-        public static func getInscription(id: String?, number: Int32?) async throws -> API.Inscription {
+        public static func getInscription(id: String?, number: Int32? = nil) async throws -> API.Inscription {
             
             if let id {
                 return try await fetch(path: "inscription/\(id)")
