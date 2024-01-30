@@ -170,7 +170,7 @@ public extension OrdKit.API {
         public let more: Bool
         public let pageIndex: Int
         
-        func fetchInscriptions() async throws -> [Inscription] {
+        public func fetchInscriptions() async throws -> [Inscription] {
             try await withThrowingTaskGroup(of: Inscription.self) { group in
                 for id in self.inscriptions {
                     group.addTask {
