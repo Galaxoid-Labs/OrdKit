@@ -66,12 +66,100 @@ public extension OrdKit.API {
             }
         }
         
-        var contentUrl: URL? {
+        public enum MediaCode: Codable {
+            case json, js, yaml, css, python
+        }
+        
+        public enum MediaImage: Codable {
+            case apng, avif, gif, jpeg, png, webp, svg
+        }
+        
+        public enum MediaHtml: Codable {
+            case html
+        }
+        
+        public enum MediaAudio: Codable {
+            case flac, mpeg, wav
+        }
+        
+        public enum MediaFont: Codable {
+            case otf, ttf, woff, woff2
+        }
+        
+        public enum MediaModel: Codable {
+            case gltfbin, gltfjson
+        }
+        
+        public enum MediaType: Codable {
+            case unknown, text, markdown, video, pdf
+            case image(MediaImage)
+            case code(MediaCode)
+            case html(MediaHtml)
+            case audio(MediaAudio)
+            case font(MediaFont)
+            case model(MediaModel)
+        }
+        
+        public var contentUrl: URL? {
             return OrdKit.baseURL?.appending(path: "content/\(inscriptionId)")
         }
         
-        var previewUrl: URL? {
+        public var previewUrl: URL? {
             return OrdKit.baseURL?.appending(path: "preview/\(inscriptionId)")
+        }
+        
+        public var mediaType: MediaType {
+            guard let contentType else { return MediaType.unknown }
+            switch contentType {
+                case "text/plain","text/plain;charset=utf-8","application/pgp-signature":
+                    return MediaType.text
+                case "text/markdown","text/markdown;charset=utf-8":
+                    return MediaType.markdown
+                case "video/mp4","video/webm":
+                    return MediaType.video
+                case "application/pdf":
+                    return MediaType.pdf
+                case "application/json":
+                    return MediaType.code(.json)
+                case "application/x-javascript", "text/javascript":
+                    return MediaType.code(.js)
+                case "application/yaml":
+                    return MediaType.code(.yaml)
+                case "text/css":
+                    return MediaType.code(.css)
+                case "application/x-python":
+                    return MediaType.code(.python)
+                case "model/gltf-binary":
+                    return MediaType.model(.gltfbin)
+                case "model/gltf+json":
+                    return MediaType.model(.gltfjson)
+                case "image/apng":
+                    return MediaType.image(.apng)
+                case "image/avif":
+                    return MediaType.image(.avif)
+                case "image/gif":
+                    return MediaType.image(.gif)
+                case "image/jpeg":
+                    return MediaType.image(.jpeg)
+                case "image/png":
+                    return MediaType.image(.png)
+                case "image/webp":
+                    return MediaType.image(.webp)
+                case "image/svg+xml":
+                    return MediaType.image(.svg)
+                case "font/otf":
+                    return MediaType.font(.otf)
+                case "font/ttf":
+                    return MediaType.font(.ttf)
+                case "font/woff":
+                    return MediaType.font(.woff)
+                case "font/woff2":
+                    return MediaType.font(.woff2)
+                case "text/html","text/html;charset=utf-8":
+                    return MediaType.html(.html)
+                default:
+                    return MediaType.unknown
+            }
         }
         
     }
