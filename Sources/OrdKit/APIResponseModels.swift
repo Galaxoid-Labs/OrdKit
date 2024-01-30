@@ -66,31 +66,31 @@ public extension OrdKit.API {
             }
         }
         
-        public enum MediaCode: Codable {
+        public enum MediaCode: Codable, Equatable {
             case json, js, yaml, css, python
         }
         
-        public enum MediaImage: Codable {
+        public enum MediaImage: Codable, Equatable {
             case apng, avif, gif, jpeg, png, webp, svg
         }
         
-        public enum MediaHtml: Codable {
+        public enum MediaHtml: Codable, Equatable {
             case html
         }
         
-        public enum MediaAudio: Codable {
+        public enum MediaAudio: Codable, Equatable {
             case flac, mpeg, wav
         }
         
-        public enum MediaFont: Codable {
+        public enum MediaFont: Codable, Equatable {
             case otf, ttf, woff, woff2
         }
         
-        public enum MediaModel: Codable {
+        public enum MediaModel: Codable, Equatable {
             case gltfbin, gltfjson
         }
         
-        public enum MediaType: Codable {
+        public enum MediaType: Codable, Equatable {
             case unknown, text, markdown, video, pdf
             case image(MediaImage)
             case code(MediaCode)
