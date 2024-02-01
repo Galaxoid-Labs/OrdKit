@@ -178,19 +178,29 @@ public extension OrdKit.API {
                     }
                 }
                 
-                var dict = [String: Inscription]()
+                var retval = [Inscription]()
                 for try await ins in group {
-                    dict[ins.inscriptionId] = ins
+                    retval.append(ins)
+                }
+                
+                return retval.sorted(by: { $0.inscriptionNumber > $1.inscriptionNumber })
+            }
+        }
+        
+        public static func fetchInscriptions(withIds ids: [String]) async throws -> [Inscription] {
+            try await withThrowingTaskGroup(of: Inscription.self) { group in
+                for id in ids {
+                    group.addTask {
+                        return try await OrdKit.API.getInscription(id: id)
+                    }
                 }
                 
                 var retval = [Inscription]()
-                for id in self.inscriptions {
-                    if let ins = dict[id] {
-                        retval.append(ins)
-                    }
+                for try await ins in group {
+                    retval.append(ins)
                 }
-
-                return retval
+                
+                return retval.sorted(by: { $0.inscriptionNumber > $1.inscriptionNumber })
             }
         }
         

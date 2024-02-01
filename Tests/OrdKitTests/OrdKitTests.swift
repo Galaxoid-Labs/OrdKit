@@ -52,6 +52,17 @@ final class OrdKitTests: XCTestCase {
         }
     }
     
+    func testInscriptionsByIdArray() async throws {
+        let ids = ["0ef5b1f14b603688a06f86a20ba67e03236ccb678085d7f44f78f0a707961b89i0","02fe22c9103ea6a3ee79f74125cf5ee9d2f1d1bc889e6c170899be2125e71707i0","16e5bd195eeed008eac42ca7337f0ba3bd80eb7d78a98fc58120812c8bc2f97di0","0ade3395462b2dfbe23a3759cd97c93b3aebe3c5b86d58acbbcd02b082745c58i0","0e7de6f25b15425c8e02a9de4dd48ab52f6250e566a9b7ba928bd228e885c2dei0","c315080f88e6e7fe5bec2d7600197a14c027db8bbabc2836675d1bf66383b429i0"]
+        
+        do {
+            let result = try await OrdKit.API.Inscriptions.fetchInscriptions(withIds: ids)
+            XCTAssertNotNil(result)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+    
     func testInscriptionsByBlock() async throws {
         do {
             let result = try await OrdKit.API.getInscriptions(block: 820000)
